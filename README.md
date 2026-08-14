@@ -31,7 +31,7 @@ Workers → 选择 seek2addy → 设置 → 变量和机密 → 添加机密：
 | 变量 | 值 |
 | --- | --- |
 | `AUTH_TOKEN` | 任意强随机串（如 `openssl rand -base64 32` 生成），稍后填进 Bitwarden |
-| `SEEKLI_API_KEY` | seek.li 控制台签发的 API Key（`sk_live_...`） |
+| `SEEKLI_API_KEY` | seek.li 控制台签发的 API Key（`sk_live_...`），只需 `mailbox:write` 权限 |
 
 > ⚠️ 机密只存在 Cloudflare 面板/密钥系统中，`wrangler.toml`、仓库文件、`.dev.vars` 里**一律不写真实值**。
 > 本地调试时 `.dev.vars` 仅作 `wrangler dev` 的模拟输入（已 gitignore），生产环境不经过它。
@@ -44,7 +44,7 @@ Workers → 选择 seek2addy → 设置 → 变量和机密 → 添加机密：
 | ---------------- | ---------------------------------------------- |
 | API Access Token | `AUTH_TOKEN` 的值（`bw_...`）                  |
 | API URL          | `https://<你的worker>.workers.dev`             |
-| Domain           | 你的 seek.li 收件域名（如 `mail.example.com`） |
+| Domain           | seek.li 收件域名：`seek.li` 或 `nodeseek.org` |
 
 之后点击"生成用户名"即可创建 seek.li 邮箱。
 

@@ -56,7 +56,7 @@ docs/                      # DESIGN / ARCHITECTURE / RATE_LIMITING
 | 变量 | 说明 |
 |---|---|
 | `AUTH_TOKEN` | 入站鉴权 token（用户填进 Bitwarden "API Access Token"） |
-| `SEEKLI_API_KEY` | seek.li API Key（`sk_live_...`），出站使用 |
+| `SEEKLI_API_KEY` | seek.li API Key（`sk_live_...`），只需 `mailbox:write` 权限，出站使用 |
 
 **配置方式**：生产环境在 Cloudflare 面板设置（Worker → 设置 → 变量和机密 → 添加机密；或等效的 `wrangler secret put`）；本地开发用 `.dev.vars`（已 gitignore，仅为 `wrangler dev` 模拟输入，不参与生产）。**禁止把 secret 写进 `wrangler.toml` 或提交仓库。**
 
@@ -72,7 +72,7 @@ docs/                      # DESIGN / ARCHITECTURE / RATE_LIMITING
 
 1. **响应缺 `data` 包装** → Bitwarden 取 `json?.data?.email` 得 null，表现是"生成成功但无结果"，极难排查。
 2. **CORS 漏配** → 仅 Web Vault 失败，桌面/CLI/移动端正常。
-3. **seek.li 没有 domains 接口** → 域名只能靠用户在 Bitwarden 的 Domain 字段手填；不要试图在 Worker 里枚举域名。
+3. **seek.li 没有 domains 接口** → 域名只能靠用户在 Bitwarden 的 Domain 字段手填；不要试图在 Worker 里枚举域名。**已实测可用收件域名：`seek.li`、`nodeseek.org`**。
 4. **WAF 现状**：seek.li 的页面（`/manage/*`、`/assets/*`）被长亭 WAF 拦截（HTTP 468 + JS 挑战），但 **`/openapi/v1/*` API 路径放行**（已实测 curl 直连返回 401 JSON）。将来若 API 也上 WAF/来源 IP 限制，Worker 的 CF 出口 IP 可能被误伤，需回归验证。
 5. **免费版 Worker**：出站 subrequest 上限 50/请求（本项目 1~2 次，安全）；CPU 时间预算足够（I/O 等待不占 CPU）。
 6. **Bitwarden 客户端版本**：新老版本（web/桌面/移动/CLI/扩展）Addy.io 集成协议一致，一套 Worker 全覆盖；若 Bitwarden 变更契约，以 `integration/addy-io.ts` 源码为准。

@@ -18,6 +18,10 @@ coverage/
 *.log
 .DS_Store
 
+# seek.li OpenAPI 本地参考导出（不入库）
+api-1.json
+api-1.yaml
+
 # 编辑器/IDE 个人配置
 .idea/
 .vscode/
