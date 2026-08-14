@@ -1,0 +1,5 @@
+# 复制为 .dev.vars 并填入真实值（.dev.vars 已被 gitignore，不会提交）
+# AUTH_TOKEN：任意强随机串（如 `openssl rand -base64 32`），填进 Bitwarden "API Access Token"
+AUTH_TOKEN=dev-auth-token-change-me
+# SEEKLI_API_KEY：seek.li 控制台签发的 API Key（sk_live_...）
+SEEKLI_API_KEY=sk_live_change_me

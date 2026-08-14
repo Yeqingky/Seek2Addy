@@ -1,0 +1,20 @@
+{
+  "name": "seek2addy",
+  "version": "0.1.0",
+  "description": "Addy.io → seek.li 协议翻译中间件（Cloudflare Workers）",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260811.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.28.0"
+  }
+}

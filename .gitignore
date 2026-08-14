@@ -1,0 +1,23 @@
+# 依赖与构建产物
+node_modules/
+dist/
+*.tsbuildinfo
+
+# wrangler 本地状态缓存（wrangler dev 运行时生成）
+.wrangler/
+
+# 敏感配置（本地调试模板见 .dev.vars.example）
+.dev.vars
+.env
+.env.*
+
+# 测试覆盖率输出
+coverage/
+
+# 日志与系统文件
+*.log
+.DS_Store
+
+# 编辑器/IDE 个人配置
+.idea/
+.vscode/
