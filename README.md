@@ -12,41 +12,45 @@ Seek2Addy 是一个部署在 **Cloudflare Workers** 上的中间件：
 
 Bitwarden 只需要把 Forwarder 类型选为 **Addy.io**、API URL 指向本 Worker，即可在生成密码时一键创建 seek.li 别名邮箱。
 
-## 快速开始
+![效果演示](https://cdn.nodeimage.com/i/ARHMywsIS4kLgUeSkF5me5eDW6JJoAxW.gif)
 
-### 1. 部署 Worker
+![效果截图](https://cdn.nodeimage.com/i/60Uzjyj7eol2PiwDJi8HZaKiYUFXgOjT.webp)
 
-```bash
-npm install -g wrangler        # 或使用 npx wrangler
-wrangler login
-wrangler deploy
-```
+## 部署教程
 
-### 2. 配置环境变量（secrets）
+### Fork仓库
 
-在 **Cloudflare 面板**上配置（不要写入任何文件）：
+https://github.com/Yeqingky/Seek2Addy
 
-Workers → 选择 seek2addy → 设置 → 变量和机密 → 添加机密：
+### 部署在Cloudflare Works
 
-| 变量 | 值 |
-| --- | --- |
-| `AUTH_TOKEN` | 任意强随机串（如 `openssl rand -base64 32` 生成），稍后填进 Bitwarden |
-| `SEEKLI_API_KEY` | seek.li 控制台签发的 API Key（`sk_live_...`），只需 `mailbox:write` 权限 |
+![image](https://cdn.nodeimage.com/i/oQVzVBbqWpjW2HjKsrXfXQf80wnG9Gow.webp)
 
-> ⚠️ 机密只存在 Cloudflare 面板/密钥系统中，`wrangler.toml`、仓库文件、`.dev.vars` 里**一律不写真实值**。
-> 本地调试时 `.dev.vars` 仅作 `wrangler dev` 的模拟输入（已 gitignore），生产环境不经过它。
+![image](https://cdn.nodeimage.com/i/FXdCmFUm00tiXcl593IPU5UGAcWlXSzA.webp)
 
-### 3. 在 Bitwarden 中配置
+绑定你的Github账户 选择你刚刚Fork后创建的仓库
 
-打开 Bitwarden → 工具 → 生成器 → 用户名，Forwarder 类型选择 **Addy.io**：
+![image](https://cdn.nodeimage.com/i/acD1JnqHomZkmw0QGubfAXQINlfE5IAO.webp)
 
-| 字段             | 值                                             |
-| ---------------- | ---------------------------------------------- |
-| API Access Token | `AUTH_TOKEN` 的值（`bw_...`）                  |
-| API URL          | `https://<你的worker>.workers.dev`             |
-| Domain           | seek.li 收件域名：`seek.li` 或 `nodeseek.org` |
+保持默认即可
 
-之后点击"生成用户名"即可创建 seek.li 邮箱。
+![image](https://cdn.nodeimage.com/i/tnp3k8WO4ar8W68aOEXDmMNc1vOmtmDA.webp)
+
+添加两个环境变量 别忘了勾选右小角的密钥
+
+`AUTH_TOKEN` 任意随机字符 用命令`openssl rand -base64 32`生成 或者直接复用下面的值也行
+
+`SEEKLI_API_KEY` Seek.li的开发者API密钥 只需要`mailbox:write`权限 如下图
+
+![image](https://cdn.nodeimage.com/i/tvqpJBRgR5EEUJLfYwBgPoVms0JplAMG.webp)
+
+然后去重新部署一下
+
+Bitwarden侧的设置如下图填写 服务选 `Addy.io` 电子邮箱域名填写`seek.li`或`nodeseek.org` API密钥是上面设置的`AUTH_TOKEN` 自托管服务器Url填Works域名(如下下图)
+
+![image](https://cdn.nodeimage.com/i/bh8qRiwEpiqQ2FP2swiGCcT7DGUKlDiO.webp)
+
+![image](https://cdn.nodeimage.com/i/YVvgwMBUOiGjgMnl3mt9jYsCQB2p9O1H.png)
 
 ## 工作原理（30 秒版）
 
